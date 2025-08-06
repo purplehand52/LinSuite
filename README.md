@@ -1,6 +1,7 @@
 ## Linear Attack Suite for Simple Feistel Networks
 
-This repository contains a
+This repository contains procedures to attack a general balanced Feistel network with variable number of S-Boxes and
+generic permutation layers before S-Boxes.
 
 ## TO-DO
 - Add possible breaks to inactive s-boxes.
