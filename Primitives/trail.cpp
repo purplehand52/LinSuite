@@ -519,3 +519,23 @@ std::tuple<bitstr, bitstr, bitstr> trail::trail_masks(size_type rounds) {
   // Return the masks
   return std::make_tuple(pt_mask, ct_mask, key_mask);
 }
+
+bitstr trail::sub_trail_masks(size_type rounds) {
+  // Checks
+  if (rounds > max_rounds) {
+    throw std::runtime_error("Number of rounds exceeds maximum rounds.");
+  }
+  if (rounds > fin_trails.size()) {
+    throw std::runtime_error("Number of rounds exceeds number of trails found.");
+  }
+
+  // Get sub-key mask (just for last round)
+  bitstr sub_key_mask = bitstr(key_size);
+  auto curr_mask = fin_trails[rounds-1].key_masks[rounds-1];
+  for (size_type j = 0; j < curr_mask.bit_size; ++j) {
+    if (curr_mask[j]) ~sub_key_mask[round_sch[rounds-1][j]];
+  }
+
+  // Return the sub-key mask
+  return sub_key_mask;
+}

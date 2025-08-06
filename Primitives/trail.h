@@ -141,6 +141,7 @@ class trail
 
   // Trail Masks
   std::tuple<bitstr, bitstr, bitstr> trail_masks(size_type rounds);
+  bitstr sub_trail_masks(size_type rounds);         /* Finds key-mask for last round alone!:*/
 };
 
 #endif

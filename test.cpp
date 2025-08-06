@@ -173,36 +173,38 @@ int main() {
   // decrypted.print_bits();
 
   // Check trail class init
-  trail_adv t(des);
+  trail t(des);
 
   // Get first three
   t.upto(4);
   // Print
   std::cout << "Trails found: " << t.fin_trails.size() << std::endl;
   for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < MEMO_SIZE; ++j)
-    { t.print_round_info(t.fin_trails[i][j]);
+    { t.print_round_info(t.fin_trails[i]);
       std::cout << std::endl;
       std::cout << "--------------------------------------" << std::endl;
     }
   }
 
   // Get trail mask
-  /* auto [a, b, c] = t.trail_masks(4);
+  auto [a, b, c] = t.trail_masks(4);
   std::cout << a.get_bits() << std::endl;
   std::cout << b.get_bits() << std::endl;
   std::cout << c.get_bits() << std::endl;
 
+  bitstr d = t.sub_trail_masks(4);
+  std::cout << d.get_bits() << std::endl;
+
   // Mount attack - 1
-  attack m4(a, b, c, t.fin_trails[3].curr_bias, 3, des); 
-  for (int i = 0; i < 50; ++i) {
+  attack m4(a, b, c, d, t.fin_trails[3].curr_bias, 3, des); 
+  /* for (int i = 0; i < 50; ++i) {
     bool test = m4.matsui1(100);
     std::cout << test << " : " << (key * c) << std::endl;
   } */
 
-  /* auto [arr, test2] = m4.matsui2(100);
+  auto [arr, test2] = m4.matsui2(100);
   std::cout << get_tern_bits(arr) << std::endl;
-  std::cout << key.get_bits() << std::endl; */
+  std::cout << key.get_bits() << std::endl;
 
   return 0;
 }

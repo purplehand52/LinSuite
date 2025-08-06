@@ -1,0 +1,8 @@
+- Documentation!
+- Add possible breaks to inactive s-boxes.
+- Update Feistel structures for assymetric-ness.
+- Possible expansion to the key-schedule mechanism.
+- Parallelise, Parallelise, Parallelise.
+- Check Matsui's Two
+- Update Advanced Trails to include Fin-Key-Mask
+

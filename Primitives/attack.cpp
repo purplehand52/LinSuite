@@ -51,13 +51,16 @@ bool attack::matsui1(size_type trials) {
 }
 
 // Matsui's 2
+// Needs fixing: Needs to a sub-key-mask for the final round function!
+//
 std::tuple<std::vector<short_type>, bool> attack::matsui2(size_type trials) {
   // Identify active s-boxes
   std::vector<std::pair<size_type, size_type>> actives;
   size_type start = 0;
   size_type net = 0;
+
   for (auto it = cipher.sboxes.begin(); it != cipher.sboxes.end(); ++it) {
-    if (key_mask.value(start, start + it->input_size) != 0) {
+    if (fin_key_mask.value(start, start + it->input_size) != 0) {
       actives.emplace_back(start, it->input_size);
       net += it->input_size;
     }
@@ -70,6 +73,7 @@ std::tuple<std::vector<short_type>, bool> attack::matsui2(size_type trials) {
 
   // Iterate over trials
   for (size_type i = 0; i < trials; ++i) {
+    std::cout << "Trial: " << i+1 << std::endl;
     // Get random plaintext
     bitstr pt = rand_bitstr(cipher.block_size);
     // Get encryption
@@ -113,11 +117,12 @@ std::tuple<std::vector<short_type>, bool> attack::matsui2(size_type trials) {
 
   // Extract first entry and create partial-key
   size_type best_cand = baskets[0].first;
+  std::cout << "Best candidate: " << best_cand << " with score: " << baskets[0].second << std::endl;
   std::vector<short_type> partial(cipher.key_size, -1);
   size_type shift = net;
   for (auto it = actives.begin(); it != actives.end(); ++it) {
     for (size_type a = 0; a < it->second; ++a) {
-      partial[cipher.round_sch[rounds][it->first + a]] = (best_cand >> (shift - a - 1)) ? 1 : 0; 
+      partial[cipher.round_sch[rounds][it->first + a]] = ((best_cand >> (shift - a - 1)) & 1) ? 1 : 0; 
     }
     shift -= it->second;
   }
