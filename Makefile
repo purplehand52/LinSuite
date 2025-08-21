@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall
 
 # Define the source files
-SRC = test.cpp Primitives/bitstr.cpp Primitives/sbox.cpp Primitives/perm.cpp Primitives/feistel.cpp Primitives/trail.cpp Primitives/attack.cpp Primitives/trail_adv.cpp
+SRC = test.cpp Primitives/bitstr.cpp Primitives/sbox.cpp Primitives/perm.cpp Primitives/feistel.cpp Primitives/trail.cpp Primitives/attack.cpp Primitives/trail_adv.cpp Primitives/bool_fn.cpp
 OBJ = $(SRC:.cpp=.o)
 TARGET = test
 

@@ -4,6 +4,9 @@
 #include "feistel.h"
 
 // Constructor
+feistel::feistel() 
+{}
+
 feistel::feistel(size_type block_size, size_type max_rounds, size_type key_size,
             const perm& ip, const perm& fp,
             const std::vector<sbox>& sboxes,

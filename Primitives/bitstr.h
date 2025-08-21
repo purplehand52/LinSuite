@@ -112,7 +112,7 @@ class bitstr {
     void operator^=(const bitstr other);
     void operator&=(const bitstr other);
     void operator~();
-    bool operator*(const bitstr other) const;   // Dot product (Hamming weight)
+    bool operator*(const bitstr other) const;   // Dot product
     bool operator==(const bitstr other) const;
     bool operator!=(const bitstr other) const;
     bitstr operator^(const bitstr other) const;
@@ -122,6 +122,15 @@ class bitstr {
     bitstr permute(perm stuff) const;
     bitstr inv_permute(perm stuff) const;
     bitstr sinv_permute(perm stuff) const;
+
+    // One-Indices
+    std::vector<size_type> one_indices() const;
+
+    // Custom Setters
+    void set_bits(std::vector<size_type> indices, size_type value);
+
+    // Custom Getters
+    size_type get_bits(std::vector<size_type> indices) const;
 
     // Printers
     void print_bits() const;

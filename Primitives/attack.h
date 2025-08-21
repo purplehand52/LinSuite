@@ -17,10 +17,16 @@
 #include <cstdlib>
 #include <cmath>
 #include <string>
+#include <complex>
 
 // Helpers
 bitstr rand_bitstr(size_type size);
 std::string get_tern_bits(std::vector<short_type> arr);
+
+// Recursive Walsh Transform
+std::vector<float> walsh_transform(const std::vector<float> &input);
+std::vector<float> walsh_transform(int* input, size_type size);
+std::vector<float> walsh_transform(bool* input, size_type size);
 
 // Main Class
 class attack
@@ -30,18 +36,20 @@ class attack
     bitstr pt_mask;
     bitstr ct_mask;
     bitstr key_mask;
-    bitstr fin_key_mask;
+    // bitstr fin_key_mask;
     float bias;
     size_type rounds;
     feistel cipher;
 
     // Constructor
-    attack(const bitstr &pt_mask, const bitstr &ct_mask, const bitstr &key_mask, const bitstr &fin_key_mask, float bias, size_type rounds, feistel cipher)
-        : pt_mask(pt_mask), ct_mask(ct_mask), key_mask(key_mask), fin_key_mask(fin_key_mask), bias(bias), rounds(rounds), cipher(cipher) {}
-
+    attack(const bitstr &pt_mask, const bitstr &ct_mask, const bitstr &key_mask, float bias, size_type rounds, feistel cipher);
+        
     // Standard Matsui's
     bool matsui1(size_type trials);
     std::tuple<std::vector<short_type>, bool> matsui2(size_type trials);
+    std::tuple<std::vector<short_type>, bool> matsui2_dist(size_type trials);
+    std::tuple<std::vector<short_type>, bool> matsui2_walsh(size_type trials);
+
 };
 
 #endif

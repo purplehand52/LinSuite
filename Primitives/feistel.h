@@ -73,6 +73,7 @@ class feistel {
     std::vector<std::vector<size_type>> round_sch;
 
     // Constructor
+    feistel();
     feistel(size_type block_size, size_type max_rounds, size_type key_size,
             const perm& ip, const perm& op,
             const std::vector<sbox>& sboxes,

@@ -472,6 +472,59 @@ bitstr bitstr::sinv_permute(perm stuff) const {
   return result;
 }
 
+// One-Indices
+std::vector<size_type> bitstr::one_indices() const {
+  std::vector<size_type> indices;
+  size_type num_blocks = (bit_size + BITS_PER_BLOCK - 1) / BITS_PER_BLOCK;
+  for (size_type i = 0; i < num_blocks; ++i) {
+    block_type block = blocks[i];
+    for (size_type j = 0; j < BITS_PER_BLOCK && (i * BITS_PER_BLOCK + j) < bit_size; ++j) {
+      if (block & (block_type(1) << j)) {
+        indices.push_back(i * BITS_PER_BLOCK + j);
+      }
+    }
+  }
+  return indices;
+}
+
+// Custom Setters
+void bitstr::set_bits(std::vector<size_type> indices, size_type value) {
+  if (indices.empty()) return; // No indices to set
+
+  // Ensure value fits in the size of indices
+  if (value >= (1UL << indices.size())) {
+    throw std::overflow_error("Value exceeds the number of bits to set");
+  }
+
+  // Set bits according to indices
+  for (size_type i = 0; i < indices.size(); ++i) {
+    if (indices[i] >= bit_size) {
+      throw std::out_of_range("Index out of range");
+    }
+    (*this)[indices[i]] = (value >> (indices.size() - 1 - i)) & 1;
+  }
+}
+
+// Custom Getters
+size_type bitstr::get_bits(std::vector<size_type> indices) const {
+  if (indices.empty()) return 0; // No indices to get
+
+  // Ensure indices are within bounds
+  for (const auto &index : indices) {
+    if (index >= bit_size) {
+      throw std::out_of_range("Index out of range");
+    }
+  }
+
+  // Get bits according to indices
+  size_type value = 0;
+  for (size_type i = 0; i < indices.size(); ++i) {
+    value <<= 1;
+    value |= (*this)[indices[i]];
+  }
+  return value;
+}
+
 // Printers
 void bitstr::print_bits() const {
   size_type num_blocks = (bit_size + BITS_PER_BLOCK - 1) / BITS_PER_BLOCK;

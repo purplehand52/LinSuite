@@ -70,16 +70,17 @@ float trail::eval_bias(std::vector<float> biases, size_type end)
 void trail::print_round_info(const round_info& rinfo)
 {
   // Current Round
-  std::cout << "Round: " << rinfo.curr_round << std::endl;
+  std::cout << "Total Rounds: \t\t" << rinfo.curr_round << std::endl;
   // Current Bias
-  std::cout << "Current Bias: " << rinfo.curr_bias << std::endl;
+  std::cout << "Current Bias: \t\t" << rinfo.curr_bias << std::endl;
   // Print vectors
   for (size_type i = 0; i < rinfo.biases.size(); ++i) {
-    std::cout << "Round " << i << std::endl;
-    std::cout << "Input Mask " << rinfo.ip_masks[i].get_bits() << std::endl;
-    std::cout << "Output Mask " << rinfo.op_masks[i].get_bits() << std::endl;
-    std::cout << "Key Mask " << rinfo.key_masks[i].get_bits() << std::endl;
-    std::cout << "Bias: " << rinfo.biases[i] << std::endl;
+    std::cout << std::endl;
+    std::cout << "Round: \t\t\t" << i << std::endl;
+    std::cout << "Input Mask: \t\t" << rinfo.ip_masks[i].get_bits() << std::endl;
+    std::cout << "Output Mask: \t\t" << rinfo.op_masks[i].get_bits() << std::endl;
+    std::cout << "Key Mask: \t\t" << rinfo.key_masks[i].get_bits() << std::endl;
+    std::cout << "Bias: \t\t\t" << rinfo.biases[i] << std::endl;
   }
   return;
 }
@@ -530,12 +531,5 @@ bitstr trail::sub_trail_masks(size_type rounds) {
   }
 
   // Get sub-key mask (just for last round)
-  bitstr sub_key_mask = bitstr(key_size);
-  auto curr_mask = fin_trails[rounds-1].key_masks[rounds-1];
-  for (size_type j = 0; j < curr_mask.bit_size; ++j) {
-    if (curr_mask[j]) ~sub_key_mask[round_sch[rounds-1][j]];
-  }
-
-  // Return the sub-key mask
-  return sub_key_mask;
+  return fin_trails[rounds-1].key_masks[rounds-1];
 }
